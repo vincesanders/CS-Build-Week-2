@@ -1,4 +1,4 @@
-def decodeString(self, s: str) -> str:
+def decodeString(s: str) -> str:
     if s is None:
         return None
     
