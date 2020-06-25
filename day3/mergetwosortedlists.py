@@ -1,85 +1,42 @@
-def decodeString(s: str, output='') -> str:
-    '''
-    This is a recursive function to findt the decoded string.
-    '''
-    # set the index to 0
-    i = 0
+# Definition for singly-linked list.
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
 
-    # if an empty string is passed, we're at the end of our string
-    if s == '':
-        return ''
-
-    # set letter to be the first character in the string
-    letter = s[i]
-    print(s)
-    if letter.isdigit():
-
-        #initialize repeats to an empty string, this will later be cast to an int
-        repeats = ''
-
-        # set the current character
-        current = s[i]
-
-        # get full number, in case it's multiple digits
-        while current != '[':
-            repeats += current
-            i +=1
-            current = s[i]
-
-        # once we have the full number, cast it to an int
-        repeats = int(repeats)
-
-        # get the substring to be repeated
-        # set the beginning index of the next substring to send to the decode string function
-        # we don't want to send the opening bracket
-        beginning_index = i + 1
-        i += 1
-
-        num_brackets = 1
-        # loop till we find the end of the substring to be repeated
-        while num_brackets > 0:
-            if current == '[':
-                num_brackets += 1
-            elif current == ']':
-                num_brackets -= 1
-            if i < len(s) - 1:
-                i += 1
-            current = s[i]
-
-        # set the ending index of the substring
-        ending_index = i
-
-        # We want the substring to include the ], so we set ending index of the substring to ending_index + 1
-        return repeats * decodeString(s[beginning_index:ending_index + 1]) + decodeString(s[ending_index + 1:])
-
-    elif letter.isalpha():
-
-        #keep track of the values that will be added to the output
-        val_to_add = ''
-
-        # set the current character
-        current = s[i]
-
-        # loop through the characters, to ensure you add all alpha charaters to the output
-        while not current.isdigit() and i < len(s) and current != ']':
-            val_to_add += current
-            i += 1
-            if i < len(s):
-                current = s[i]
+class Solution:
+    def mergeTwoLists(self, l1: ListNode, l2: ListNode) -> ListNode:
+        # check edge cases
+        if l1 is None and l2 is None:
+            return None
+        elif l1 is None:
+            return l2
+        elif l2 is None:
+            return l1
         
-        # if we end on a digit, we need to calculate the rest of the value to add
-        # by sending the remainder of the substring to the decodeString function
-        if current.isdigit():
-            return val_to_add + decodeString(s[i:])
+        # create a new linked list
+        head = ListNode()
+        current_new = head
+        current1 = l1
+        current2 = l2
+        
+        # move through the other linked lists
+        looping = True
+        while looping:
+            if current1 is None and current2 is None:
+                looping = False
+                break
 
-        # else we return the value
-        return val_to_add
-    return output
+            # add the node with the lowest value to the new linked list
+            if current2 is None or (current1 and current1.val <= current2.val):
+                current_new.next = current1
+                current_new = current_new.next
+                # progress to the next node of that list
+                current1 = current1.next
+            else:
+                current_new.next = current2
+                current_new = current_new.next
+                # progress to the next node of that list
+                current2 = current2.next
 
-string = "3[a]2[bc]"
-string2 = "3[a2[c]]"
-string3 = "2[abc]3[cd]ef"
-string4 = "abc3[cd]xyz"
-string5 = "3[a]2[b4[F]c]"
-
-print(decodeString(string5))
+        return head.next

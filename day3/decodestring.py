@@ -3,7 +3,7 @@ def decodeString(self, s: str) -> str:
         return None
     
     repeats = []
-    
+
     # intialize the output as array with a single empty string
     # We'll be adding to it as we move through the encoded string
     output = [""]
@@ -45,3 +45,11 @@ def decodeString(self, s: str) -> str:
 
     # rebuild the decoded string from the output array.
     return "".join(output)
+
+string = "3[a]2[bc]"
+string2 = "3[a2[c]]"
+string3 = "2[abc]3[cd]ef"
+string4 = "abc3[cd]xyz"
+string5 = "3[a]2[b4[F]c]"
+
+print(decodeString(string5))
